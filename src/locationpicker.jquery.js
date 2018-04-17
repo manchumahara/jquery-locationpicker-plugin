@@ -423,6 +423,11 @@
             google.maps.event.addListener(gmapContext.marker, "dragend", function(event) {
                 displayMarkerWithSelectedArea();
             });
+            
+            gmapContext.map.addListener("zoom_changed", function(event) {
+                gmapContext.settings.onzoomed.apply(gmapContext.domContainer, [gmapContext.map.getZoom()]);
+            });
+            
             GmUtility.setPosition(gmapContext, new google.maps.LatLng(settings.location.latitude, settings.location.longitude), function(context){
                 updateInputValues(settings.inputBinding, gmapContext);
                 // Set  input bindings if needed
@@ -453,6 +458,7 @@
         enableReverseGeocode: true,
         draggable: true,
         onchanged: function(currentLocation, radius, isMarkerDropped) {},
+        onzoomed: function(currentZoom) {},
         onlocationnotfound: function(locationName) {},
         oninitialized: function (component) {},
         // must be undefined to use the default gMaps marker
